@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+//Problem Statement:
+//https://community.topcoder.com/stat?c=problem_statement&pm=14695
+
 class RedDragonInnTest {
 
     @Test

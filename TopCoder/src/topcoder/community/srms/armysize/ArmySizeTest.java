@@ -6,6 +6,9 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+//Problem Statement:
+//https://community.topcoder.com/stat?c=problem_statement&pm=14999
+
 class ArmySizeTest {
 
     @Test
