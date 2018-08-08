@@ -23,8 +23,7 @@ public class ArmySize {
     public String[] getSum(String[] units) {
 
         // Early return if there is a Legion in the units. This also helps prevent some
-        // overflow
-        // that could occur on checking Legions of max size.
+        // overflow that could occur on checking Legions of max size.
         if (Arrays.stream(units).anyMatch(s -> "Legion".equals(s))) {
             return new String[] { "Legion" };
         }
@@ -36,6 +35,11 @@ public class ArmySize {
 
         Set<String> finalQuantifiers = new HashSet<>();
         for (int num : possibleElementNumbers) {
+            
+            // There's a lot going on here. There probably does not need to be but I'm
+            // playing around with Streams here. We are looking through all of the quantifiers
+            // trying to find the one for which this particular number matches and adding that
+            // quantifier to the set of final quantifier classifications for this army.
             finalQuantifiers.add(mappedQuantifiers.entrySet().stream().filter(s -> s.getValue().isQuantity(num))
                                                   .findFirst().get().getKey());
         }
@@ -45,23 +49,39 @@ public class ArmySize {
 
     private Map<String, Quantifier> mapQuantifiers() {
         Map<String, Quantifier> quantifiers = new HashMap<>();
-        quantifiers.put("Few", new Few());
-        quantifiers.put("Several", new Several());
-        quantifiers.put("Pack", new Pack());
-        quantifiers.put("Lots", new Lots());
-        quantifiers.put("Horde", new Horde());
-        quantifiers.put("Throng", new Throng());
-        quantifiers.put("Swarm", new Swarm());
-        quantifiers.put("Zounds", new Zounds());
-        quantifiers.put("Legion", new Legion());
+        
+        Quantifier few = new Few();
+        quantifiers.put(few.getName(), few);
+        
+        Quantifier several = new Several();
+        quantifiers.put(several.getName(), several);
+        
+        Quantifier pack = new Pack();
+        quantifiers.put(pack.getName(), pack);
+        
+        Quantifier lots = new Lots();
+        quantifiers.put(lots.getName(), lots);
+        
+        Quantifier horde = new Horde();
+        quantifiers.put(horde.getName(), horde);
+        
+        Quantifier throng = new Throng();
+        quantifiers.put(throng.getName(), throng);
+        
+        Quantifier swarm = new Swarm();
+        quantifiers.put(swarm.getName(), swarm);
+        
+        Quantifier zounds = new Zounds();
+        quantifiers.put(zounds.getName(), zounds);
+        
+        Quantifier legion = new Legion();
+        quantifiers.put(legion.getName(), legion);
 
         return quantifiers;
-
     }
 
     // I think this is a breadth first search algorithm. Used here to count all
-    // permutations of
-    // unit quantities.
+    // permutations of unit quantities for the input units. Nice.
     private void recurse(Queue<String> units, int count, Set<Integer> finalCounts) {
         if (units.isEmpty()) {
             finalCounts.add(count);
@@ -78,6 +98,15 @@ public class ArmySize {
         return;
     }
 
+    
+    /**
+     * The base class for all Quantifiers
+     * 
+     * Did I need to do a hierarchy for the quantifiers? No.
+     * I could have just done a map of pairs or something but I wanted
+     * to do this.
+     * 
+     */
     private abstract class Quantifier {
         private int min = 0;
         private int max = 0;
