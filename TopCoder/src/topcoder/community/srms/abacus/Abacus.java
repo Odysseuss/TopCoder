@@ -6,6 +6,9 @@ package topcoder.community.srms.abacus;
 public class Abacus {
 
     private static String separator = "---";
+    private static char beadChar = 'o';
+    private static char separatorChar = '-';
+    private static int base = 10;
 
     public String[] add(String[] original, int val) {
 
@@ -24,13 +27,13 @@ public class Abacus {
         // on the abacus.
         int remaining = valueOfFinalAbbacus;
 
-        for (int idx = (abbacus.length - 1); idx >= 0; idx--, remaining /= 10) { // Starting at the least significant
-                                                                                 // digit, parse each digit and
-                                                                                 // "chop" the digit off by dividing
-                                                                                 // by 10
+        for (int idx = (abbacus.length - 1); idx >= 0; idx--, remaining /= base) { // Starting at the least significant
+                                                                                   // digit, parse each digit and
+                                                                                   // "chop" the digit off by dividing
+                                                                                   // by the base
 
-            // Mod by 10 will pull off the least significant digit
-            int valueForLine = remaining % 10;
+            // Mod by base will return the least significant digit
+            int valueForLine = remaining % base;
 
             // Create a string for the value
             abbacus[idx] = lineOfValue(valueForLine);
@@ -50,19 +53,19 @@ public class Abacus {
         // Add beads for the value of the line
         for (; idx >= 0 && (value > 0); idx--) {
             if (value > 0) {
-                lineChars[idx] = 'o';
+                lineChars[idx] = beadChar;
                 value--;
             }
         }
 
         // Add the seperator
         for (int separator = 0; separator < 3; separator++, idx--) {
-            lineChars[idx] = '-';
+            lineChars[idx] = separatorChar;
         }
 
         // Add the beads that are unused on the line.
         for (; idx >= 0; idx--) {
-            lineChars[idx] = 'o';
+            lineChars[idx] = beadChar;
         }
 
         return new String(lineChars);
@@ -71,7 +74,7 @@ public class Abacus {
     private int valueOnAbbacus(String[] state) {
         int value = 0;
         for (int idx = 0; idx < state.length; idx++) {
-            int valueOfLine = (valueOnLine(state[idx]) * (int) java.lang.Math.pow(10, ((state.length - 1) - idx)));
+            int valueOfLine = (valueOnLine(state[idx]) * (int) java.lang.Math.pow(base, ((state.length - 1) - idx)));
             value += valueOfLine;
         }
 
@@ -89,7 +92,7 @@ public class Abacus {
 
             // The value is the number of bead on the right side line.
             // This is represented in the right side of the split, or index 1
-            value = split[1].lastIndexOf('o') - split[1].indexOf("o") + 1;
+            value = split[1].lastIndexOf(beadChar) - split[1].indexOf(beadChar) + 1;
         }
 
         return value;
