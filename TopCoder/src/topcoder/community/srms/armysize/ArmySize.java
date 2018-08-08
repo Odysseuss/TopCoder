@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 
@@ -26,14 +28,18 @@ public class ArmySize {
 
     public String[] getSum(String[] units) {
 
-        // Early return if there is a Legion in the units. This also helps prevent some
-        // overflow that could occur on checking Legions of max size.
-        if (Arrays.stream(units).anyMatch(s -> "Legion".equals(s))) {
-            return new String[] { "Legion" };
+        // Search for any "max quantifier" in the units.
+        List<String> maxQuantifier = Arrays.stream(units)
+                .filter(s -> mappedQuantifiers.get(s).getMax() == Integer.MAX_VALUE).collect(Collectors.toList());
+        
+        if (!maxQuantifier.isEmpty()) { // Although there could be many, it only matters if there is one max quantifier.
+                                        // If so, there will only be the max quantifier as the army size as the army
+                                        // cannot decrease from the max once reached. Early return.
+            
+            return new String[] { mappedQuantifiers.get(maxQuantifier.get(0)).getName() };
         }
 
         Queue<String> unitQuantifiers = new LinkedList<String>(Arrays.asList(units));
-
         Set<Integer> possibleElementNumbers = new HashSet<>();
         recurse(unitQuantifiers, 0, possibleElementNumbers);
 
