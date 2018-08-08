@@ -90,8 +90,7 @@ public class ArmySize {
         return quantifiers;
     }
 
-    // I think this is a breadth first search algorithm. Used here to count all
-    // permutations of unit quantities for the input units. Nice.
+    // Calculates all permutations of unit quantities for the input units.
     private void recurse(Queue<String> units, int count, Set<Integer> finalCounts) {
         if (units.isEmpty()) {
             finalCounts.add(count);
