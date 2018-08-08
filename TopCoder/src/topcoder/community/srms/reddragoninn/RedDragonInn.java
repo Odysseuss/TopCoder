@@ -1,7 +1,8 @@
 package topcoder.community.srms.reddragoninn;
-// Problem Statement:
-// https://community.topcoder.com/stat?c=problem_statement&pm=14695
 
+/**
+ * <a href="https://community.topcoder.com/stat?c=problem_statement&pm=14695">Problem Statement</a>
+ */
 public class RedDragonInn {
 
     public int maxGold(int N, int X) {

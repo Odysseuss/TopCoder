@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.Test;
 
-// Problem Statement:
-// https://community.topcoder.com/stat?c=problem_statement&pm=4512
 
+/**
+ * <a href="https://community.topcoder.com/stat?c=problem_statement&pm=4512">Problem Statement</a>
+ */
 class AbacusTest {
 
     @Test

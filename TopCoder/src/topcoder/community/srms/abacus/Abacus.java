@@ -1,8 +1,8 @@
 package topcoder.community.srms.abacus;
 
-// Problem Statement:
-// https://community.topcoder.com/stat?c=problem_statement&pm=4512
-
+/**
+ * <a href="https://community.topcoder.com/stat?c=problem_statement&pm=4512">Problem Statement</a>
+ */
 public class Abacus {
 
     private static String separator = "---";

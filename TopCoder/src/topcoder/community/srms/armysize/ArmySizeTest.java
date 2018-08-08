@@ -6,9 +6,11 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-//Problem Statement:
-//https://community.topcoder.com/stat?c=problem_statement&pm=14999
-
+/**
+ * 
+ * <a href="https://community.topcoder.com/stat?c=problem_statement&pm=14999">Problem Statement</a>
+ * 
+ */
 class ArmySizeTest {
 
     @Test

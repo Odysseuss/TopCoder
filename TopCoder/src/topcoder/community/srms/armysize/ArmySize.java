@@ -9,9 +9,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-// Problem Statement:
-// https://community.topcoder.com/stat?c=problem_statement&pm=14999
 
+
+/**
+ * 
+ * <a href="https://community.topcoder.com/stat?c=problem_statement&pm=14999">Problem Statement</a>
+ * 
+ */
 public class ArmySize {
 
     Map<String, Quantifier> mappedQuantifiers = Collections.emptyMap();
