@@ -5,10 +5,12 @@ package topcoder.community.srms.abacus;
  */
 public class Abacus {
 
-    private static String separator = "---";
-    private static char beadChar = 'o';
-    private static char separatorChar = '-';
-    private static int base = 10;
+    private static String SEPARATOR = "---";
+    private static final char BEAD_CHAR = 'o';
+    private static final char SEPARATOR_CHAR = '-';
+    private static final int BASE = 10;
+    private static final int MAX_LINE_VALUE = 9;
+    private static final int MAX_CHARACTERS_PER_LINE = 12;
 
     public String[] add(String[] original, int val) {
 
@@ -27,13 +29,13 @@ public class Abacus {
         // on the abacus.
         int remaining = valueOfFinalAbbacus;
 
-        for (int idx = (abbacus.length - 1); idx >= 0; idx--, remaining /= base) { // Starting at the least significant
+        for (int idx = (abbacus.length - 1); idx >= 0; idx--, remaining /= BASE) { // Starting at the least significant
                                                                                    // digit, parse each digit and
                                                                                    // "chop" the digit off by dividing
                                                                                    // by the base
 
             // Mod by base will return the least significant digit
-            int valueForLine = remaining % base;
+            int valueForLine = remaining % BASE;
 
             // Create a string for the value
             abbacus[idx] = lineOfValue(valueForLine);
@@ -44,37 +46,28 @@ public class Abacus {
     }
 
     private String lineOfValue(int value) {
-        char[] lineChars = new char[12];
+        assert(value <= MAX_LINE_VALUE); // Max value of line
 
-        // This index will be used in multiple for loops
-        // to keep the place of where we are on the line.
-        int idx = 11;
+        StringBuilder abacusLine = new StringBuilder(12);
 
-        // Add beads for the value of the line
-        for (; idx >= 0 && (value > 0); idx--) {
-            if (value > 0) {
-                lineChars[idx] = beadChar;
-                value--;
-            }
+        for (int i = 1; i <= (MAX_LINE_VALUE - value); i++) { // The non-value beads
+            abacusLine.append(BEAD_CHAR);
+        }
+        
+        abacusLine.append(SEPARATOR);
+        
+        for(int i = 1; i <= value; i++) { // The value beads
+            abacusLine.append(BEAD_CHAR);
         }
 
-        // Add the seperator
-        for (int separator = 0; separator < 3; separator++, idx--) {
-            lineChars[idx] = separatorChar;
-        }
+        return abacusLine.toString();
 
-        // Add the beads that are unused on the line.
-        for (; idx >= 0; idx--) {
-            lineChars[idx] = beadChar;
-        }
-
-        return new String(lineChars);
     }
 
     private int valueOnAbbacus(String[] state) {
         int value = 0;
         for (int idx = 0; idx < state.length; idx++) {
-            int valueOfLine = (valueOnLine(state[idx]) * (int) java.lang.Math.pow(base, ((state.length - 1) - idx)));
+            int valueOfLine = (valueOnLine(state[idx]) * (int) java.lang.Math.pow(BASE, ((state.length - 1) - idx)));
             value += valueOfLine;
         }
 
@@ -83,16 +76,15 @@ public class Abacus {
 
     private int valueOnLine(String line) {
 
-        String[] split = line.split(separator);
+        String[] split = line.split(SEPARATOR);
 
         int value = 0;
 
-        if (split.length > 1) { // If there are more than one string in the split, determine the value. If there
-                                // is no left side after the split. The line is a zero.
+        if (split.length > 1) { // If the string splits, there are beads in the value portion. If the string
+                                // does not split there is non value portion of the line (zero).
 
-            // The value is the number of bead on the right side line.
-            // This is represented in the right side of the split, or index 1
-            value = split[1].lastIndexOf(beadChar) - split[1].indexOf(beadChar) + 1;
+            // The value is the number of beads on the right side line, or split index 1.
+            value = split[1].lastIndexOf(BEAD_CHAR) - split[1].indexOf(BEAD_CHAR) + 1;
         }
 
         return value;
